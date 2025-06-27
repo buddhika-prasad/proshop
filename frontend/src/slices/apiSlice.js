@@ -5,12 +5,5 @@ import { BASE_URL } from "../constants";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  endpoints: (builder) => ({
-    getProducts: builder.query({
-      query: () => "/products", // this should match your backend route
-    }),
-  }),
+  endpoints: (builder) => ({}),
 });
-
-// ✅ Export the hook
-export const { useGetProductsQuery } = apiSlice;
