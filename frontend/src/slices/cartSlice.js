@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { updateCart } from "../utils/cartUtils";
 
 const initialState = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart"))
   : { cartItems: [] };
 
-const addDecimals = (num) => {
-  return (Math.round(num * 100) / 100).toFixed(2);
-};
+
 
 const cartSlice = createSlice({
   name: "cart",
@@ -26,29 +25,17 @@ const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, item];
       }
 
-      // 🔢 Calculate item price
-      state.itemPrice = addDecimals(
-        state.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-      );
+      return updateCart(state);
 
-      // 🚚 Calculate shipping price
-      state.shippingPrice = addDecimals(state.itemPrice > 100 ? 0 : 10);
-
-      // 💸 Calculate tax price
-      state.taxPrice = addDecimals(Number((0.15 * state.itemPrice).toFixed(2)));
-
-      // 💰 Calculate total price
-      state.totalPrice = addDecimals(
-        Number(state.itemPrice) +
-        Number(state.shippingPrice) +
-        Number(state.taxPrice)
-      );
-
-      // 💾 Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
-    }
+      
+    },
+    removeFromCart: (state, action) => {
+      
+      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
+      return updateCart(state);
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;
