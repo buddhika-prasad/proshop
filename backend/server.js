@@ -10,6 +10,9 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // ✅ Middleware to parse URL-encoded request bodies
+
 connectDB(); // ✅ Connect to the database
 
 app.get("/", (req, res) => {

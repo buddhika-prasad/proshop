@@ -1,13 +1,26 @@
 import asyncHandler from "express-async-handler";
+import User from "../models/userModel.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
-  res.send("auth user");
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
 });
-
-
 
 // @desc    Register a new user
 // @route   POST /api/users
@@ -58,10 +71,10 @@ const updateUser = asyncHandler(async (req, res) => {
   res.send(`update user ${req.params.id}`);
 });
 
-export const getUsers = (req, res) => {
+const getUsers = asyncHandler(async (req, res) => {
   // Your logic to get all users
   res.json({ message: "Get all users" });
-};
+});
 
 export {
   authUser,
@@ -72,4 +85,5 @@ export {
   getUserByID,
   deleteUser,
   updateUser,
+  getUsers,
 };
