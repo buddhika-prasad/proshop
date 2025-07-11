@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 dotenv.config();
 import connectDB from "./config/db.js";
 
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // ✅ Middleware to parse URL-encoded request bodies
 
+app.use(cookieParser()); // ✅ Middleware to parse cookies
 connectDB(); // ✅ Connect to the database
 
 app.get("/", (req, res) => {
