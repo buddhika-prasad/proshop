@@ -3,19 +3,21 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
-import { saveShippingAdress } from "../slices/cartSlice";
+import { saveShippingAddress } from "../slices/cartSlice";
+
+import CheckoutSteps from "../components/CheckoutSteps";
 
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart);
-  const { shippingAdress } = cart;
+  const { shippingAddress } = cart;
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [address, setaddress] = useState(shippingAdress?.address || "");
-  const [city, setCity] = useState(shippingAdress?.city || "");
+  const [address, setAddress] = useState(shippingAddress?.address || "");
+  const [city, setCity] = useState(shippingAddress?.city || "");
   const [postalCode, setPostalCode] = useState(
-    shippingAdress?.postalCode || ""
+    shippingAddress?.postalCode || ""
   );
-  const [country, setCountry] = useState(shippingAdress?.country || "");
+  const [country, setCountry] = useState(shippingAddress?.country || "");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const ShippingScreen = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAdress({ address, city, postalCode, country }));
+    dispatch(saveShippingAddress({ address, city, postalCode, country }));
     navigate("/payment");
   };
 
@@ -36,6 +38,8 @@ const ShippingScreen = () => {
 
   return (
     <FormContainer>
+      <CheckoutSteps step1 step2 />
+
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address" className="my-2">
@@ -44,7 +48,7 @@ const ShippingScreen = () => {
             type="text"
             placeholder="Enter address"
             value={address}
-            onChange={(e) => setaddress(e.target.value)}
+            onChange={(e) => setAddress(e.target.value)}
           />
         </Form.Group>
 
@@ -74,6 +78,8 @@ const ShippingScreen = () => {
             type="text"
             placeholder="Enter country"
             value={country}
+            on
+            Ascendingly
             onChange={(e) => setCountry(e.target.value)}
           />
         </Form.Group>
