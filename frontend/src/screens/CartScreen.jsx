@@ -20,9 +20,9 @@ const CartScreen = () => {
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-
+  console.log("Cart items:", cartItems);
   const addToCartHandler = (product, qty) => {
-    dispatch(addToCart({ ...product, quantity: qty }));
+    dispatch(addToCart({ ...product, qty }));
   };
 
   const removeFromCartHandler = (id) => {
@@ -90,11 +90,19 @@ const CartScreen = () => {
             <ListGroup.Item>
               <h2>
                 Subtotal (
-                {cartItems.reduce((acc, item) => acc + item.quantity, 0)}) items
+                {cartItems.reduce(
+                  (acc, item) => acc + Number(item.qty || 0),
+                  0
+                )}
+                ) items
               </h2>
               $
               {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
+                .reduce(
+                  (acc, item) =>
+                    acc + Number(item.qty || 0) * Number(item.price || 0),
+                  0
+                )
                 .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>

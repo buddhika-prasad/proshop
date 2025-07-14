@@ -33,7 +33,7 @@ export const ProductScreen = () => {
 
   const addToCartHandler = () => {
     // Dispatch the addToCart action with product details
-    dispatch(addToCart({ ...product, quantity: qty }));
+    dispatch(addToCart({ ...product, qty }));
 
     navigate("/cart");
   };
