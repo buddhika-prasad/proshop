@@ -56,7 +56,7 @@ const CartScreen = () => {
                   <Col md={2}>
                     <Form.Control
                       as="select"
-                      value={item.quantity}
+                      value={item.qty}
                       onChange={(e) =>
                         addToCartHandler(item, Number(e.target.value))
                       }
@@ -94,7 +94,7 @@ const CartScreen = () => {
               </h2>
               $
               {cartItems
-                .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                .reduce((acc, item) => acc + item.qty * item.price, 0)
                 .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>

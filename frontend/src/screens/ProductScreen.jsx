@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Form, Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import {
+  Form,
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+} from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
 import { addToCart } from "../slices/cartSlice";
-
 
 export const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -18,19 +25,17 @@ export const ProductScreen = () => {
 
   const [qty, setQty] = useState(1);
 
-
   const {
     data: product,
     isLoading,
     error,
   } = useGetProductDetailsQuery(productId);
 
-   const addToCartHandler = () => {
+  const addToCartHandler = () => {
     // Dispatch the addToCart action with product details
-    dispatch(
-      addToCart({ ...product, quantity: qty })
-    );
-    navigate('/cart');
+    dispatch(addToCart({ ...product, quantity: qty }));
+
+    navigate("/cart");
   };
 
   return (
@@ -41,10 +46,10 @@ export const ProductScreen = () => {
 
       {isLoading ? (
         <Loader />
-
       ) : error ? (
-        <Message variant='danger'>{error?.data?.message || error.error}</Message>
-      
+        <Message variant="danger">
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <Row>
           <Col md={5}>
@@ -65,7 +70,9 @@ export const ProductScreen = () => {
               </ListGroup.Item>
 
               <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-              <ListGroup.Item>Description: {product.description}</ListGroup.Item>
+              <ListGroup.Item>
+                Description: {product.description}
+              </ListGroup.Item>
             </ListGroup>
           </Col>
 
