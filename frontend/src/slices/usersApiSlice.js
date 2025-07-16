@@ -17,18 +17,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    profile: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/profile`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
     logout: builder.mutation({
-      /*************  ✨ Windsurf Command ⭐  *************/
-      /**
-       * Logs out the user.
-       *
-       * @memberof usersApiSlice.endpoints
-       *
-       * @param {object} data - Data to be sent with the request.
-       *
-       * @return {object} - The response object.
-       */
-      /*******  239ea41c-41a5-48fe-be65-28720bdf5e01  *******/ query: () => ({
+      query: () => ({
         url: `${USERS_URL}/logout`,
         method: "POST",
       }),
@@ -36,5 +33,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useLogoutMutation } =
-  usersApiSlice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useLogoutMutation,
+  useProfileMutation,
+} = usersApiSlice;
