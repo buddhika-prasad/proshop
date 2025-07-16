@@ -10,7 +10,6 @@ import Loader from "../components/Loader";
 
 import {
   useGetOrderDetailsQuery,
-  useCreateOrderMutation,
   useGetPayPalClientIdQuery,
   usePayOrderMutation,
   useDeliverOrderMutation,
