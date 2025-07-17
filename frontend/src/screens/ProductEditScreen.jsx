@@ -7,6 +7,8 @@ import Loader from "../components/Loader";
 import {
   useUpdateProductMutation,
   useGetProductDetailsQuery,
+  useUploadProductImageMutation,
+  useDeleteProductMutation,
 } from "../slices/productsApiSlice";
 import FormContainer from "../components/FormContainer";
 import { toast } from "react-toastify";
@@ -32,6 +34,9 @@ const ProductEditScreen = () => {
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
 
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,6 +51,43 @@ const ProductEditScreen = () => {
     }
   }, [product]);
 
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      setImage(res.image);
+      toast.success("Image uploaded successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.data?.message || err?.error || "Image upload failed");
+    }
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      await updateProduct({
+        productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        description,
+        countInStock,
+      }).unwrap();
+
+      toast.success("Product Updated");
+      refetch();
+      navigate("/admin/productlist");
+    } catch (err) {
+      toast.error(err?.data?.message || err?.error || "Update failed");
+    }
+  };
+
   return (
     <>
       <Link to="/admin/productlist" className="btn btn-light my-3">
@@ -54,37 +96,21 @@ const ProductEditScreen = () => {
 
       <FormContainer>
         <h1>Edit Product</h1>
+
         {loadingUpdate && <Loader />}
         {error && <Message variant="danger">{error?.data?.message}</Message>}
         {isLoading ? (
           <Loader />
         ) : (
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-              updateProduct({
-                productId,
-                name,
-                price,
-                image,
-                brand,
-                category,
-                description,
-                countInStock,
-              });
-              toast.success("Product Updated");
-              refetch();
-              navigate("/admin/productlist");
-            }}
-          >
+          <Form onSubmit={submitHandler}>
             <Form.Group className="my-2" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                type="name"
+                type="text"
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Form.Group className="my-2" controlId="price">
@@ -94,7 +120,7 @@ const ProductEditScreen = () => {
                 placeholder="Enter price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Form.Group className="my-2" controlId="image">
@@ -104,7 +130,13 @@ const ProductEditScreen = () => {
                 placeholder="Enter image url"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
-              ></Form.Control>
+              />
+              <Form.Control
+                type="file"
+                label="Choose File"
+                onChange={uploadFileHandler}
+              />
+              {loadingUpload && <Loader />}
             </Form.Group>
 
             <Form.Group className="my-2" controlId="brand">
@@ -114,7 +146,7 @@ const ProductEditScreen = () => {
                 placeholder="Enter brand"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Form.Group className="my-2" controlId="countInStock">
@@ -124,7 +156,7 @@ const ProductEditScreen = () => {
                 placeholder="Enter countInStock"
                 value={countInStock}
                 onChange={(e) => setCountInStock(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Form.Group className="my-2" controlId="category">
@@ -134,7 +166,7 @@ const ProductEditScreen = () => {
                 placeholder="Enter category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Form.Group className="my-2" controlId="description">
@@ -144,7 +176,7 @@ const ProductEditScreen = () => {
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Button type="submit" variant="primary">
