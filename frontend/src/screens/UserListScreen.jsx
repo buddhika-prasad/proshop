@@ -3,6 +3,7 @@ import { Table, Button } from "react-bootstrap";
 import { FaTimes, FaTrash, FaEdit, FaCheck } from "react-icons/fa";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { toast } from "react-toastify";
 import {
   useGetUsersQuery,
   useDeleteUserMutation,
@@ -16,9 +17,10 @@ const UserListScreen = () => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
         await deleteUser(id).unwrap();
+        toast.success("User deleted successfully");
         refetch();
       } catch (err) {
-        console.error(err);
+        toast.error(err?.data?.message || err.error);
       }
     }
   };
