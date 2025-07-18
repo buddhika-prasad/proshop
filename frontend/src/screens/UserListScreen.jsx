@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
-import { FaTimes, FaTrash, FaEdit, FaCheck } from "react-icons/fa";
+import { FaTrash, FaEdit, FaCheck } from "react-icons/fa";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { toast } from "react-toastify";
