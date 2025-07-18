@@ -1,5 +1,5 @@
-//import { createProduct } from "../../../backend/controllers/productController";
-import { PRODUCTS_URL, UPLOAD_URL } from "../constants";
+// import { createProduct } from "../../../backend/controllers/productController";
+import { PRODUCTS_URL, UPLOAD_URL, USERS_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -46,6 +46,20 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getUserDetails: builder.query({
+      query: (userId) => ({
+        url: `${USERS_URL}/${userId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    updateUser: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/${data.userId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -56,4 +70,6 @@ export const {
   useUpdateProductMutation,
   useDeleteProductMutation,
   useUploadProductImageMutation,
+  useGetUserDetailsQuery,
+  useUpdateUserMutation,
 } = productsApiSlice;
