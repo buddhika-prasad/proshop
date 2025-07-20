@@ -40,28 +40,7 @@ Backend
 - bcryptjs - Password hashing
 - Multer - File uploads
 
-Project Structure
 
-proshop-v2/
-├── frontend/                 # React frontend application
-│   ├── public/              # Static files
-│   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   ├── screens/         # Page components
-│   │   ├── slices/          # Redux Toolkit slices
-│   │   ├── utils/           # Utility functions
-│   │   └── assets/          # Images and styles
-│   └── package.json
-├── backend/                  # Node.js backend application
-│   ├── config/              # Database configuration
-│   ├── controllers/         # Route controllers
-│   ├── data/                # Sample data
-│   ├── middleware/          # Custom middleware
-│   ├── models/              # MongoDB models
-│   ├── routes/              # API routes
-│   ├── utils/               # Utility functions
-│   └── server.js            # Entry point
-└── uploads/                 # File uploads directory
 
 Getting Started
 
