@@ -182,5 +182,6 @@ Acknowledgments
 - PayPal for payment integration
 
 ---
+Update-proshop version2 Frontend implemented with Tailwind css- visit https://github.com/buddhika-prasad/proshop-v2.git
 
 If you found this project helpful, please give it a star!
